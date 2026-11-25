@@ -272,6 +272,19 @@ footer{background:var(--night);color:#CDB6E0;text-align:center;font-size:.92rem;
 .altlink{margin-top:22px;color:#E9D8F7}
 .altlink a{color:var(--sun);font-weight:800}
 
+
+.opt{font-weight:800;margin:14px 0 8px}
+.opt:first-of-type{margin-top:0}
+.samples{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.samples button{font:800 .92rem var(--f-body);color:var(--ink);background:#EFFFC9;border:var(--line);border-radius:999px;padding:8px 14px;
+  cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s,background .2s}
+.samples button:hover{transform:translate(-1px,-1px);background:var(--sun)}
+.samples button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.samples button:disabled{opacity:.6;cursor:default}
+.tag{display:block;margin-top:6px;font-size:.74rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+.mini{background:none;border:0;padding:0;font:800 .88rem var(--f-body);color:var(--rose);text-decoration:underline;cursor:pointer}
+.wnote{margin-top:10px}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
   .reveal{opacity:1;transform:none}
@@ -279,7 +292,6 @@ footer{background:var(--night);color:#CDB6E0;text-align:center;font-size:.92rem;
 </style>
 </head>
 <body>
-
 
 <header class="nav">
   <div class="wrap">
@@ -473,32 +485,36 @@ footer{background:var(--night);color:#CDB6E0;text-align:center;font-size:.92rem;
   <div class="wrap">
     <div class="reveal">
       <span class="eyebrow">Sin Telegram</span>
-      <h2>Pruébalo aquí mismo</h2>
-      <p class="lead">Sube una foto de tu planta y el bot te responde sin salir de esta página.</p>
+      <h2>Otras formas de probarlo</h2>
+      <p class="lead">Mira cómo responde el bot con ejemplos, ábrelo en Telegram Web o sube tu propia foto si abres esta página dentro de Claude.</p>
     </div>
     <div class="wstage">
       <div class="panel reveal" style="--d:.05s">
-        <h3>Cómo se usa</h3>
-        <ol class="how">
-          <li data-n="1"><span>Toca la cámara y elige una foto de tu planta.</span></li>
-          <li data-n="2"><span>Si quieres, escribe una pregunta. Si no, el bot responde con la pregunta de siempre.</span></li>
-          <li data-n="3"><span>Envía y espera la respuesta. Puedes detenerla cuando quieras.</span></li>
-        </ol>
-        <p><b>Preguntas para probar</b></p>
-        <div class="chips" id="chips">
-          <button type="button">¿Cada cuánto la riego?</button>
-          <button type="button">¿Se ve sana?</button>
-          <button type="button">¿Le falta luz?</button>
+        <h3>Elige cómo probarlo</h3>
+        <p class="opt">1. Con ejemplos, sin cuenta</p>
+        <p>Toca un ejemplo y mira la respuesta que daría el bot.</p>
+        <div class="samples" id="samples">
+          <button type="button" data-k="pothos">Pothos</button>
+          <button type="button" data-k="cactus">Cactus</button>
+          <button type="button" data-k="suculenta">Suculenta</button>
+          <button type="button" data-k="monstera">Monstera</button>
+          <button type="button" data-k="taza">Una taza</button>
+          <button type="button" data-k="texto">Solo texto</button>
         </div>
-        <div class="wstatus" id="wstatus" role="status">Conectando el chat en vivo…</div>
-        <p class="wnote">Tu foto se envía a Claude para analizarla y gasta tu propio uso de Claude. No se guarda en esta página.</p>
+        <button type="button" class="mini" id="wreset">Limpiar el chat</button>
+        <p class="opt">2. En Telegram Web</p>
+        <p>Se usa desde el navegador, sin instalar la app. Necesita una cuenta de Telegram.</p>
+        <a class="btn rose" href="https://web.telegram.org/k/#@BIODIVERSITY_DSBOT" target="_blank" rel="noopener">Abrir en Telegram Web</a>
+        <p class="opt">3. Con tu propia foto</p>
+        <div class="wstatus" id="wstatus" role="status">Revisando si tu foto se puede analizar aquí…</div>
+        <p class="wnote" id="wnote" hidden>Tu foto se envía a Claude para analizarla y gasta tu propio uso de Claude. No se guarda en esta página.</p>
       </div>
       <div class="reveal" style="--d:.15s">
         <div class="phone">
           <div class="screen">
             <div class="bar"><i><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M21.5 3.2 2.7 10.5c-1 .4-1 1.4-.2 1.7l4.8 1.5 1.8 5.6c.2.6 1 .8 1.4.3l2.6-2.5 4.9 3.6c.7.5 1.6.1 1.8-.8L23 4.6c.2-1.1-.7-1.8-1.5-1.4Z"/></svg></i>Bot Botánico</div>
             <div class="chat wchat" id="wchat" aria-live="polite"></div>
-            <form class="composer" id="wform" autocomplete="off">
+            <form class="composer" id="wform" autocomplete="off" hidden>
               <div class="thumb" id="wthumb" hidden><img id="wimg" alt="Foto elegida"><span id="wname">Foto lista</span><button type="button" id="wclear">Quitar</button></div>
               <input type="file" id="wfile" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
               <button type="button" class="attach" id="wattach" aria-label="Elegir una foto">
@@ -509,6 +525,7 @@ footer{background:var(--night);color:#CDB6E0;text-align:center;font-size:.92rem;
             </form>
           </div>
         </div>
+        <p class="note">Las respuestas de los ejemplos están escritas de antemano. El bot real analiza tu foto.</p>
       </div>
     </div>
   </div>
@@ -705,7 +722,7 @@ var TIPS={
  'como-funciona':['Elige qué le mandas al bot y mira el camino que sigue tu mensaje.','Si no hay foto, el bot solo da la bienvenida. Si no es una planta, te lo dice sin rodeos.'],
  'requisitos':['Para que el bot funcione necesita cinco cosas. ¡Márcalas una por una!','Ojo: el escenario debe estar encendido, si no el bot no contesta.'],
  'probar':['¡Ya casi! Escanea el QR y mándale tu foto al bot en Telegram.','También puedes tocar el botón amarillo para abrir Telegram directo.'],
- 'chat-web':['¿Sin Telegram? Sube una foto de tu planta aquí abajo y chatea con el bot.','Tu foto se envía a Claude para analizarla. Si prefieres, usa el QR en Telegram.']
+ 'chat-web':['¿Sin Telegram? Toca un ejemplo aquí abajo y mira cómo responde el bot.','También puedes abrirlo en Telegram Web, desde el navegador.']
 };
 var mascot=$('#mascot'), mbub=$('#mbub'), mtext=$('#mtext'), mghost=$('#mghost'), mbtn=$('#mbtn'), mx=$('#mx');
 var muted=false, curIdx=-1, tipIdx=0, typeT=null, hideT=null;
@@ -747,7 +764,7 @@ mx.addEventListener('click',function(){ muted=true; clearInterval(typeT); clearT
 function hop(){ if(reduce){return;} mascot.classList.remove('hop'); void mascot.offsetWidth; mascot.classList.add('hop'); setTimeout(function(){mascot.classList.remove('hop');},850); }
 function celebrate(){ hop(); muted=false; say('¡Los cinco requisitos! Ahora sí el bot está listo para cuidar plantas.'); }
 /* keep Maceti off the chat composer: move her aside on wide screens, hide on narrow ones */
-var wformEl=$('#wform');
+var wformEl=$('#chat-web .phone');
 function chatSpot(){
   var r=wformEl.getBoundingClientRect(), vh=window.innerHeight, near=r.bottom>vh*.35&&r.top<vh;
   var narrow=window.innerWidth<=820;
@@ -795,15 +812,68 @@ function wAdd(kind,text){
   wchat.appendChild(d); wchat.scrollTop=wchat.scrollHeight; return d;
 }
 function typingBub(){ var d=wAdd('bot',''); d.innerHTML='<span class="typing"><i></i><i></i><i></i></span>'; return d; }
+var composerEl=document.getElementById('wform'), wnoteEl=document.getElementById('wnote');
+var TGWEB='https://web.telegram.org/k/#@BIODIVERSITY_DSBOT';
 function setStatus(kind){
-  wstatus.classList.toggle('ok',kind==='on');
-  if(kind==='on'){ wstatus.textContent='Chat en vivo listo. Elige una foto y envíala.'; }
-  else if(kind==='wait'){ wstatus.textContent='Conectando el chat en vivo…'; }
+  var live=(kind==='on');
+  wstatus.classList.toggle('ok',live);
+  composerEl.hidden=!live; wnoteEl.hidden=!live;
+  if(live){ wstatus.textContent='Chat en vivo listo: toca la cámara, elige tu foto y envíala.'; }
+  else if(kind==='wait'){ wstatus.textContent='Revisando si tu foto se puede analizar aquí…'; }
   else{
-    wstatus.innerHTML='El chat en vivo solo funciona cuando abres esta página dentro de Claude. Mientras tanto, mira la <a href="#como-funciona" data-go="como-funciona">demostración</a> o usa el <a href="#probar" data-go="probar">QR de Telegram</a>.';
-    $$('a[data-go]',wstatus).forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); var el=document.getElementById(a.getAttribute('data-go')); if(el){el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});} }); });
+    wstatus.innerHTML='Subir tu propia foto solo funciona cuando abres esta página dentro de Claude. Aquí puedes usar los ejemplos o <a href="'+TGWEB+'" target="_blank" rel="noopener">Telegram Web</a>.';
   }
 }
+function hearts(){
+  var h='M0 0C-9-11-22-3-15 8-11 14 0 20 0 20S11 14 15 8C22-3 9-11 0 0Z';
+  var out='';
+  [[66,34,-25,.85],[104,30,20,.8],[86,22,0,.7],[58,56,-40,.6],[112,54,38,.6]].forEach(function(t){
+    out+='<path d="'+h+'" transform="translate('+t[0]+','+t[1]+') rotate('+t[2]+') scale('+t[3]+')" fill="#2CC56C" stroke="#2A0F3D" stroke-width="3" stroke-linejoin="round"/>';
+  });
+  return out;
+}
+function rosette(){
+  var out='';
+  for(var i=0;i<8;i++){ out+='<ellipse cx="0" cy="-17" rx="10" ry="19" transform="translate(85 58) rotate('+(i*45)+')" fill="#7BD34F" stroke="#2A0F3D" stroke-width="2.5"/>'; }
+  for(var j=0;j<6;j++){ out+='<ellipse cx="0" cy="-10" rx="7" ry="13" transform="translate(85 58) rotate('+(j*60+30)+')" fill="#A6E36B" stroke="#2A0F3D" stroke-width="2.5"/>'; }
+  return out+'<circle cx="85" cy="58" r="5" fill="#E0F7A8" stroke="#2A0F3D" stroke-width="2"/>';
+}
+var POT='<path d="M62 82h46l-6 30H68Z" fill="#E01E5A" stroke="#2A0F3D" stroke-width="3" stroke-linejoin="round"/><rect x="56" y="76" width="58" height="12" rx="6" fill="#FF5C9E" stroke="#2A0F3D" stroke-width="3"/>';
+var SV='<svg class="photo" viewBox="0 0 170 120" aria-hidden="true">';
+ART.pothos=SV+'<path d="M85 76C70 62 62 50 64 36M85 76C100 62 110 46 106 32M85 76C86 60 87 44 86 28" fill="none" stroke="#0E8A43" stroke-width="3" stroke-linecap="round"/>'+hearts()+POT+'</svg>';
+ART.cactus=SV+'<path d="M85 74V30M85 62H62V46M85 56H108V40" fill="none" stroke="#2A0F3D" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/><path d="M85 74V30M85 62H62V46M85 56H108V40" fill="none" stroke="#2CC56C" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>'+POT+'</svg>';
+ART.suculenta=SV+rosette()+'<path d="M64 84h42l-5 28H69Z" fill="#E01E5A" stroke="#2A0F3D" stroke-width="3" stroke-linejoin="round"/><rect x="58" y="80" width="54" height="10" rx="5" fill="#FF5C9E" stroke="#2A0F3D" stroke-width="3"/></svg>';
+ART.monstera=SV+'<path d="M85 100C40 94 28 52 52 30 63 21 77 28 85 40 93 28 107 21 118 30 142 52 130 94 85 100Z" fill="#12A150" stroke="#2A0F3D" stroke-width="3" stroke-linejoin="round"/><path d="M85 100V44M85 82L58 58M85 82L112 58M85 68L64 46M85 68L106 46" fill="none" stroke="#0B6B38" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="62" cy="74" rx="5" ry="8" transform="rotate(30 62 74)" fill="#DDF4FF"/><ellipse cx="108" cy="74" rx="5" ry="8" transform="rotate(-30 108 74)" fill="#DDF4FF"/></svg>';
+var DEMOS={
+ pothos:{art:'pothos',cap:'¿Cada cuánto la riego?',reply:'Parece un pothos (Epipremnum aureum). Se ve sana: hojas firmes y buen color. Vigila solo que las puntas no se pongan amarillas. Riégala cuando el sustrato esté seco al tocarlo, normalmente cada una o dos semanas. Tip: la luz indirecta la mantiene feliz.'},
+ cactus:{art:'cactus',cap:'',reply:'Es un cactus columnar, de esos que crecen derechitos con brazos. Se ve sano: tallo firme y color parejo. Vigila que no se estire ni se incline hacia la ventana, suele ser falta de luz. Riégalo solo cuando el sustrato esté completamente seco, cada dos o tres semanas y menos en invierno. Tip: dale unas horas de sol directo y una maceta con buen drenaje.'},
+ suculenta:{art:'suculenta',cap:'¿Se ve sana?',reply:'Parece una echeveria (Echeveria elegans). Se ve sana: roseta compacta y hojas gruesas. Vigila que las hojas de abajo no se arruguen ni se pongan translúcidas, sería falta o exceso de agua. Riégala cuando el sustrato esté seco, cada diez a catorce días, directo a la tierra sin mojar la roseta. Tip: mucha luz brillante mantiene sus colores.'},
+ monstera:{art:'monstera',cap:'',reply:'Es una monstera (Monstera deliciosa). Se ve sana, con hojas grandes y de un verde intenso. Vigila las puntas marrones o las hojas amarillas: casi siempre son exceso de riego o aire muy seco. Riégala cuando los primeros tres o cuatro centímetros de sustrato estén secos, más o menos una vez por semana. Tip: límpiale las hojas con un paño húmedo para que respire mejor.'},
+ taza:{art:'mug',cap:'',reply:NOPLANT},
+ texto:{text:'Hola',reply:WELCOME}
+};
+function playDemo(key){
+  if(busy){return;}
+  var d=DEMOS[key]; if(!d){return;}
+  var me=wAdd('me','');
+  if(d.text){ me.textContent=d.text; }
+  else{
+    me.innerHTML=ART[d.art];
+    if(d.cap){ var c=document.createElement('span'); c.className='cap'; c.textContent=d.cap; me.appendChild(c); }
+  }
+  wchat.scrollTop=wchat.scrollHeight;
+  var tb=typingBub(); busy=true;
+  $$('#samples button').forEach(function(b){b.disabled=true;});
+  setTimeout(function(){
+    tb.remove();
+    var bot=wAdd('bot',d.reply);
+    var tag=document.createElement('span'); tag.className='tag'; tag.textContent='Respuesta de ejemplo'; bot.appendChild(tag);
+    wchat.scrollTop=wchat.scrollHeight;
+    busy=false; $$('#samples button').forEach(function(b){b.disabled=false;});
+  },reduce?0:1100);
+}
+$$('#samples button').forEach(function(b){ b.addEventListener('click',function(){ playDemo(b.getAttribute('data-k')); }); });
+document.getElementById('wreset').addEventListener('click',function(){ if(busy){return;} wchat.innerHTML=''; wAdd('bot',WELCOME); });
 wAdd('bot',WELCOME);
 setStatus('wait');
 (function(){

@@ -7,7 +7,7 @@ Bot de Telegram: **@BIODIVERSITY_DSBOT**
 ## Contenido
 
 - `Presentacion_Bot_Botanico.pptx`: presentación de 6 diapositivas (qué hace, cómo funciona, qué necesita y QR del bot).
-- `index.html`: página interactiva con la mascota Maceti, la demostración del recorrido del mensaje, la lista de requisitos y el QR. Es un solo archivo; ábrelo en el navegador.
+- `index.html`: página interactiva con la mascota Maceti, la demostración del recorrido del mensaje, la lista de requisitos y el QR. Es un solo archivo; ábrelo en el navegador o visítala en GitHub Pages: https://cesargm-max.github.io/Presentacion-Bot-botanico/
 
 ## Cómo funciona el escenario
 
@@ -25,6 +25,10 @@ Bot de Telegram: **@BIODIVERSITY_DSBOT**
 - Proveedor de IA (Make's AI Provider).
 - Escenario activado (ON).
 
-## Nota sobre el chat web
+## Probarlo sin Telegram
 
-El apartado "Sin Telegram" de `index.html` usa la función de chat con Claude disponible solo cuando la página se abre dentro de Claude. Fuera de ahí muestra un aviso y remite al QR de Telegram.
+La sección "Otras formas de probarlo" de la página ofrece:
+
+- **Ejemplos**: botones con plantas de muestra (potus, cactus, suculenta, monstera, una taza y un mensaje de texto) que muestran cómo responde el bot. Las respuestas están escritas de antemano; no se conectan al bot real.
+- **Telegram Web**: botón que abre el bot en https://web.telegram.org (necesita una cuenta de Telegram, pero no la app).
+- **Chat en vivo con Claude**: solo funciona cuando la página se abre dentro de Claude; en GitHub Pages no aparece.
